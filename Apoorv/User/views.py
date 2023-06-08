@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.shortcuts import login, logout
+# from django.shortcuts import login, logout
 
-# from django.contrib.auth import authenticate, login , logout
-# from django.contrib.auth.views import login
+# from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView, LogoutView
 def home(request):
     if request.user.is_authenticated:
-        return render(request, 'User/views.py')
+        return render(request, 'login_user')
     else:
-        return redirect('User/views.py')
+        return redirect('home')
     
 
 
@@ -20,15 +20,15 @@ def login_user(request):
 
         user = user.objects.get(username=username)
         if user.password == password:
-            login(request, user)
-            return redirect('WorkOrder')
+            LoginView(request, user)
+            return redirect('workorder')
         else:
-            return render(request, 'User/views.py', {'error':'invalid username or password'})
+            return render(request, 'login_user', {'error':'invalid username or password'})
     else:
-        return render (request, 'User/views.py')
+        return render (request, 'home')
 
 
-def logout__user(request):
-    logout(request)
-    return redirect('User/views.py')
+def logout_user(request):
+    LogoutView(request)
+    return redirect('home')
     
